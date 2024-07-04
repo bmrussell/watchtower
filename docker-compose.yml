@@ -15,11 +15,4 @@ services:
         - WATCHTOWER_POLL_INTERVAL=${INTERVAL}
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
-    networks:
-      - proxy
-
-networks:
-  proxy:
-    external:
-      name: nginx-proxy
+    restart: unless-stopped
