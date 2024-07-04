@@ -1,0 +1,25 @@
+# From https://alexgallacher.com/auto-update-docker-containers-by-setting-up-watchtower/
+version: '3.1'
+services:
+  watchtower:
+    image: v2tec/watchtower
+    container_name: watchtower
+    environment:
+        - WATCHTOWER_NOTIFICATIONS=email
+        - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${EMAIL_FROM}
+        - WATCHTOWER_NOTIFICATION_EMAIL_TO=${EMAIL_TO}
+        - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=${EMAIL_SMTP}
+        - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=${EMAIL_PORT}
+        - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${EMAIL_USER}
+        - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${EMAIL_PASSWORD}
+        - WATCHTOWER_POLL_INTERVAL=${INTERVAL}
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external:
+      name: nginx-proxy
