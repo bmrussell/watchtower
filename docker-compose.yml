@@ -2,8 +2,9 @@
 version: '3.1'
 services:
   watchtower:
-    image: v2tec/watchtower
+    image: containrrr/watchtower:latest
     container_name: watchtower
+
     environment:
         - WATCHTOWER_NOTIFICATIONS=email
         - WATCHTOWER_NOTIFICATION_EMAIL_FROM=${EMAIL_FROM}
@@ -13,6 +14,10 @@ services:
         - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${EMAIL_USER}
         - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${EMAIL_PASSWORD}
         - WATCHTOWER_POLL_INTERVAL=${INTERVAL}
+        - WATCHTOWER_WARN_ON_HEAD_FAILURE=never
+
     volumes:
         - /var/run/docker.sock:/var/run/docker.sock
+        - /home/brian/.docker/config.json:/config.json
+
     restart: unless-stopped
